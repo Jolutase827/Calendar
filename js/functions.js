@@ -24,6 +24,7 @@ function colocarMes(date){
     let restaOSuma;
     let dia1DelMes =new Date(date.getFullYear()+'-'+(date.getMonth()+1)+'-01');
     let posicionDia1 = dia1DelMes.getDay();
+    
     let numeroDeDiasMes = getNumeroDiaPorMes(date.getMonth()+1,date.getFullYear());
     let numerosDiaMesPasado= getNumeroDiaPorMes(date.getMonth(),(date.getMonth()+1==1)?date.getFullYear()-1:date.getFullYear());
     localStorage.removeItem('elemento-seleccionado');
@@ -52,7 +53,8 @@ function colocarMes(date){
                 cambio=false;
                 restaOSuma = 2;
             }
-        numero.id = date.getFullYear()+'-'+(((date.getMonth()<10)?'0':'')+(date.getMonth()+restaOSuma))+'-'+((restaOSuma==0)?numerosDiaMesPasado-(resta+1):((dia/10<1)?'0'+(dia-1):dia-1));
+            let fecha =  date.getFullYear()+'-'+(((date.getMonth()<10)?'0':'')+(date.getMonth()+restaOSuma))+'-'+((restaOSuma==0)?numerosDiaMesPasado-(resta+1):((dia/10<1)?'0'+(dia-1):dia-1));
+            numero.id = fecha;
     });
 }
 
@@ -90,15 +92,12 @@ function establecerTareas(idElemento){
 <div class="contenedor-tareas mt-4" id='contenedorTareas'>
     
 </div>
-<div class="col-12 d-flex justify-content-around mt-3">
+<div class="col-12 d-flex justify-content-around mt-3 mb-3">
     <input type="text" id="tareaAnyadir" placeholder="Escribe tarea" class="col-7 rounded">
     <button class="btn btn-primary col-4" id='anyadir-tarea'>Crear tarea</button>
 </div>`;
-    if(localStorage.getItem('tareas')==null){
-        localStorage.setItem('tareas',JSON.stringify([]));
-    }
-    let allTareas = JSON.parse(localStorage.getItem('tareas'));
-    let tareas = JSON.parse(localStorage.getItem('tareas')).filter(tarea => tarea.id== idElemento);
+    
+    let tareas = allTareas.filter(tarea => tarea.fecha== idElemento && tarea.nombreUsuario== nombreUsuario);
     if(tareas.length>0){
         document.getElementById('contenedorTareas').innerHTML='';
         tareas.forEach(element => {
@@ -115,29 +114,34 @@ function establecerTareas(idElemento){
         }else{
             if(tareas.length<1){
                 document.getElementById('contenedorTareas').innerHTML='';
-                anyadirElemnto(allTareas.length-1,inputTarea.value,document.getElementById('contenedorTareas'),allTareas);
+                anyadirElemnto(allTareas.length,inputTarea.value,document.getElementById('contenedorTareas'),allTareas);
             }else{
-                anyadirElemnto(allTareas.length-1,inputTarea.value,document.getElementById('contenedorTareas'),allTareas);
+                anyadirElemnto(allTareas.length,inputTarea.value,document.getElementById('contenedorTareas'),allTareas);
             }
-            allTareas.push({idTarea: allTareas.length,nombreTarea: inputTarea.value, nombreUsuario:'manolo'});
-            tareas.push({idTarea: allTareas.length,nombreTarea: inputTarea.value, nombreUsuario:'manolo'});
+            allTareas.push({idTarea: allTareas.length,nombreTarea: inputTarea.value, nombreUsuario: nombreUsuario,fecha:idElemento});
+            tareas.push({idTarea: allTareas.length,nombreTarea: inputTarea.value, nombreUsuario: nombreUsuario,fecha:idElemento});
             localStorage.setItem('tareas',JSON.stringify(allTareas));
         }
     })
 
 }
 
-function anyadirElemnto(idTarea,nombreTarea,padre,allTareas){
-    padre.innerHTML+=`<div class="tarea d-flex justify-content-around align-items-center rounded mb-3">
-    <h3>${nombreTarea}</h3>
-    <i class="bi bi-trash3 rounded" id='${idTarea}'></i>
-    </div>`;
-    document.getElementById(idTarea).addEventListener('click',()=>{
+function anyadirElemnto(idTarea,nombreTarea,padre){
+    const contenedorTarea = document.createElement('div');
+    const h3 =document.createElement('h3');
+    const i = document.createElement('i');
+    contenedorTarea.classList = "tarea d-flex justify-content-around align-items-center rounded mb-3";
+    h3.classList = 'col-7';
+    h3.textContent = nombreTarea;
+    i.classList = "bi bi-trash3 rounded";
+    i.addEventListener('click',()=>{
         allTareas = allTareas.filter(tarea => tarea.idTarea!=idTarea);
-        document.getElementById(idTarea).parentElement.remove();
+        contenedorTarea.remove();
         localStorage.setItem('tareas',JSON.stringify(allTareas));
     });
-
+    contenedorTarea.append(h3);
+    contenedorTarea.append(i);
+    padre.append(contenedorTarea);
 }
 
 function isBisiesto(año){

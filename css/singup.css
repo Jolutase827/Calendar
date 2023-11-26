@@ -1,0 +1,14 @@
+main{
+    width: 100%;
+    height: 100vh;
+    background-image: url('https://i.pinimg.com/originals/d7/f5/ae/d7f5ae1d7a361c1f84b62b1499d6cc56.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+main>div{
+    background-color: white;
+}
