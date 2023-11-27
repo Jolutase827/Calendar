@@ -54,6 +54,9 @@ function colocarMes(date){
                 restaOSuma = 2;
             }
             let fecha =  date.getFullYear()+'-'+(((date.getMonth()<10)?'0':'')+(date.getMonth()+restaOSuma))+'-'+((restaOSuma==0)?numerosDiaMesPasado-(resta+1):((dia/10<1)?'0'+(dia-1):dia-1));
+            if(allTareas.filter(element=> element.fecha==fecha&&nombreUsuario==element.nombreUsuario).length>0){
+                numero.classList+= ' tiene-tarea';
+            }
             numero.id = fecha;
     });
 }
@@ -75,13 +78,16 @@ function ponerEventListener(elemento){
             colocarMes(date);
         }else if(localStorage.getItem('elemento-seleccionado')!=null){
             let idElementoAnterior = JSON.parse(localStorage.getItem('elemento-seleccionado'));
-            if(idElementoAnterior.substr(5,2)==date.getMonth()+1)
-                document.getElementById(idElementoAnterior).classList='';
+            if(idElementoAnterior.substr(5,2)==date.getMonth()+1){
+                if(allTareas.filter(element=> element.fecha==idElementoAnterior&&nombreUsuario==element.nombreUsuario).length>0)
+                    document.getElementById(idElementoAnterior).classList='tiene-tarea';        
+                else
+                    document.getElementById(idElementoAnterior).classList='';
+            }
         }
         document.getElementById(idElemento).classList ="seleccionado";
         localStorage.setItem('elemento-seleccionado',JSON.stringify(idElemento));
         establecerTareas(idElemento);
-
     });
 }
 function establecerTareas(idElemento){

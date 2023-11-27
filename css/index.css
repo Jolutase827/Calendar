@@ -27,7 +27,28 @@ td{
     text-align: end;
     border-color: black;
 }
-main>div{
+td:not(.otro-mes)+.tiene-tarea{
+    text-decoration: underline;
+    color: blue;
+}
+.contendor-informacion>div{
+    background-color: white;
+    border-bottom: solid 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.contedor-tarea-buscador:hover{
+    background-color: rgb(185, 185, 185);
+}
+.btn-dark{
+    height: 35px;
+}
+.buscar-div{
+    height: 70px;
+    background-color: white;
+}
+.bloque-tarea{
     height: 400px;
     background-color: white;
 }
