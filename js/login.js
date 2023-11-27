@@ -25,7 +25,7 @@ boton.addEventListener('click',()=>{
         }else{
             usuarios.push({nombre: nombre.value, contrasenya:  pwd.value});
             sessionStorage.setItem('usuarios',JSON.stringify(usuarios));
-            sessionStorage.setItem('usuarioActivo',JSON.stringify(nombre.value));
+            sessionStorage.setItem('usuarioActivo',nombre.value);
             location.replace('index.html');
         }
     }
