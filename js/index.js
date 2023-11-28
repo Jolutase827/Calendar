@@ -46,6 +46,7 @@ inputBuscador.addEventListener('keyup',()=>{
             inputBuscador.name = tarea.idTarea;
         });
     });
+    inputBuscador.name = '';
     if(!hayTarea){
         contenedorTareasABuscar.innerHTML+=`<div class="col-12 d-flex justify-content-around pt-2 pb-2">
         <span>No existen tareas con este nombre.</span>
@@ -53,11 +54,18 @@ inputBuscador.addEventListener('keyup',()=>{
     }
 });
 botonBuscador.addEventListener('click',()=>{
-    if(inputBuscador.name==''){
-        
+    if(inputBuscador.name!=''){
+        let buscador = allTareas.filter(element=> element.idTarea==inputBuscador.name&&nombreUsuario==element.nombreUsuario);
+        if(buscador.length>0){
+            date = new Date(buscador[0].fecha);
+            colocarMes(date);
+            document.getElementById(buscador[0].fecha).click();
+        }else{
+            alert('No existe tarea');
+        }
     }else{
         let buscador = allTareas.filter(element=> element.nombreTarea==inputBuscador.value&&nombreUsuario==element.nombreUsuario);
-        if(buscador>0){
+        if(buscador.length>0){
             date = new Date(buscador[0].fecha);
             colocarMes(date);
             document.getElementById(buscador[0].fecha).click();
