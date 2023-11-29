@@ -54,6 +54,9 @@ function colocarMes(date){
                 restaOSuma = 2;
             }
             let fecha =  date.getFullYear()+'-'+(((date.getMonth()<10)?'0':'')+(date.getMonth()+restaOSuma))+'-'+((restaOSuma==0)?numerosDiaMesPasado-(resta+1):((dia/10<1)?'0'+(dia-1):dia-1));
+            if(fecha==fechaDiaHoy){
+                numero.classList+= ' dia-hoy';
+            }
             if(allTareas.filter(element=> element.fecha==fecha&&nombreUsuario==element.nombreUsuario).length>0){
                 numero.classList+= ' tiene-tarea';
             }
@@ -83,6 +86,8 @@ function ponerEventListener(elemento){
                     document.getElementById(idElementoAnterior).classList='tiene-tarea';        
                 else
                     document.getElementById(idElementoAnterior).classList='';
+                if(idElementoAnterior==fechaDiaHoy)
+                    document.getElementById(idElementoAnterior).classList+=' dia-hoy';        
             }
         }
         document.getElementById(idElemento).classList ="seleccionado";

@@ -37,6 +37,13 @@ td:not(.otro-mes)+.tiene-tarea{
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
+}
+.today{
+    z-index: 0;
+}
+.dia-hoy{
+    background-color: aqua;
 }
 .contedor-tarea-buscador:hover{
     background-color: rgb(185, 185, 185);

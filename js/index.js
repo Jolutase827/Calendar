@@ -11,6 +11,10 @@ const bloqueTareas= document.getElementById('bloque-tarea');
 const inputBuscador = document.getElementById('buscador');
 const botonBuscador = document.getElementById('boton-buscador');
 const contenedorTareasABuscar = document.getElementById('contendor-informacion');
+const botonIrHoy = document.getElementById('botonHoy');
+const irAFecha = document.getElementById('fechaAPoner');
+let diaHOY = new Date();
+let fechaDiaHoy = diaHOY.getFullYear()+'-'+(((diaHOY.getMonth()<10)?'0':'')+(diaHOY.getMonth()+1))+'-'+((diaHOY.getDate()/10<1)?'0'+diaHOY.getDate():diaHOY.getDate());
 let date = new Date();
 if(localStorage.getItem('tareas')==null){
     localStorage.setItem('tareas',JSON.stringify([]));
@@ -74,3 +78,13 @@ botonBuscador.addEventListener('click',()=>{
         }
     }
 });
+botonIrHoy.addEventListener('click',()=>{
+    date = new Date(diaHOY);
+    colocarMes(date);
+    document.getElementById(fechaDiaHoy).click();
+});
+irAFecha.addEventListener('change',()=>{
+    date = new Date(irAFecha.value);
+    colocarMes(date);
+    document.getElementById(irAFecha.value).click();
+})
